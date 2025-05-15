@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagamento via Pix</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f7f7f7;
+      text-align: center;
+    }
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: inline-block;
+    }
+    code {
+      display: block;
+      background-color: #eee;
+      padding: 15px;
+      margin: 20px 0;
+      word-wrap: break-word;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007aff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fcc;
+    }
+    canvas {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Pagamento via Pix</h2>
+    <p>Toque no botão para copiar o código Pix:</p>
+    <code id="pix-code">Carregando código...</code>
+    <button onclick="copiarPix()">Copiar Código Pix</button>
+    <canvas id="qrcode"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
+  <script>
+    // Pega o código da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const codigoPix = urlParams.get('codigo');
+
+    const codeElement = document.getElementById('pix-code');
+    const qrCanvas = document.getElementById('qrcode');
+
+    if (codigoPix) {
+      codeElement.textContent = codigoPix;
+      QRCode.toCanvas(qrCanvas, codigoPix, { width: 250 }, function (error) {
+        if (error) console.error(error);
+      });
+    } else {
+      codeElement.textContent = 'Nenhum código Pix informado.';
+    }
+
+    function copiarPix() {
+      if (!codigoPix) return;
+      navigator.clipboard.writeText(codigoPix).then(() => {
+        alert('Código Pix copiado com sucesso!');
+      }, () => {
+        alert('Não foi possível copiar o código.');
+      });
+    }
+  </script>
+</body>
+</html>
