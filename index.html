@@ -1,87 +1,176 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Código PIX</title>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background: #f7f7f7;
-            padding: 20px;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            max-width: 500px;
-            margin: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 10px;
-        }
-        .pix-code {
-            font-size: 14px;
-            word-wrap: break-word;
-            margin-bottom: 20px;
-            background: #f0f0f0;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .botao-copiar {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 25px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .botao-copiar:hover {
-            background-color: #218838;
-        }
-        canvas {
-            margin: 20px auto;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagamento via Pix - Tamandaré Tintas</title>
+  <style>
+    :root {
+      --cor-primaria: #0056b3;
+      --cor-secundaria: #003d82;
+      --cor-texto: #333;
+      --cor-fundo: #f7f7f7;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      padding: 20px;
+      background-color: var(--cor-fundo);
+      text-align: center;
+      color: var(--cor-texto);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding-bottom: 60px; /* Espaço para o rodapé */
+    }
+    
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+    }
+    
+    .logo {
+      max-width: 180px;
+      margin-bottom: 20px;
+    }
+    
+    h2 {
+      color: var(--cor-primaria);
+      margin-bottom: 15px;
+    }
+    
+    .instrucao {
+      margin-bottom: 20px;
+      color: #555;
+    }
+    
+    code {
+      display: block;
+      background-color: #f0f0f0;
+      padding: 15px;
+      margin: 20px 0;
+      word-break: break-all;
+      font-size: 14px;
+      border-radius: 8px;
+      text-align: left;
+      overflow-x: auto;
+    }
+    
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      background-color: var(--cor-primaria);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin: 10px 0;
+      width: 100%;
+      max-width: 250px;
+    }
+    
+    button:hover {
+      background-color: var(--cor-secundaria);
+    }
+    
+    #qrcode {
+      margin: 20px auto;
+      display: block;
+      max-width: 100%;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      padding: 10px 0;
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+      
+      code {
+        font-size: 12px;
+        padding: 12px;
+      }
+      
+      button {
+        padding: 10px 20px;
+      }
+
+      footer {
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Pagamento por PIX</h2>
-        <div class="pix-code" id="codigoPix">Carregando código PIX...</div>
-        <canvas id="qr-code"></canvas>
-        <button class="botao-copiar" onclick="copiarCodigo()">Copiar Código</button>
-    </div>
+  <div class="container">
+    <img src="logo.png" alt="Tamandaré Tintas" class="logo">
+    
+    <h2>Pagamento via Pix</h2>
+    <p class="instrucao">Escaneie o QR Code ou copie o código abaixo:</p>
+    
+    <code id="pix-code">Carregando código...</code>
+    
+    <button onclick="copiarPix()">Copiar Código Pix</button>
+    
+    <canvas id="qrcode"></canvas>
+  </div>
 
-<script>
-    function obterParametroUrl(nome) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(nome);
-    }
+  <footer>
+    © 2025 Tamandaré Tintas. Todos os direitos reservados.
+  </footer>
 
-    function copiarCodigo() {
-        const codigoPIX = document.getElementById('codigoPix').innerText;
-        navigator.clipboard.writeText(codigoPIX).then(() => {
-            alert('Código PIX copiado!');
-        }, (err) => {
-            alert('Erro ao copiar o código PIX');
-            console.error('Erro ao copiar: ', err);
-        });
-    }
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const codigoPix = urlParams.get('codigo');
 
-    const codigoPIX = decodeURIComponent(obterParametroUrl('codigo')); // <- ESSA É A MUDANÇA IMPORTANTE
-    if (codigoPIX) {
-        document.getElementById('codigoPix').innerText = codigoPIX;
+    const codeElement = document.getElementById('pix-code');
+    const qrCanvas = document.getElementById('qrcode');
 
-        // Gerar QR Code
-        QRCode.toCanvas(document.getElementById('qr-code'), codigoPIX, {
-            width: 200,
-            margin: 2
-        }, (error) => {
-            if (error) console.error(error);
-        });
+    if (codigoPix) {
+      codeElement.textContent = codigoPix;
+      
+      const qrSize = window.innerWidth <= 480 ? 200 : 250;
+      
+      QRCode.toCanvas(qrCanvas, codigoPix, { width: qrSize }, function (error) {
+        if (error) console.error(error);
+      });
     } else {
-        document.getElementById('codigoPix').innerText = 'Código PIX não encontrado na URL.';
+      codeElement.textContent = 'Nenhum código Pix informado.';
     }
-</script>
+
+    function copiarPix() {
+      if (!codigoPix) return;
+      
+      navigator.clipboard.writeText(codigoPix).then(() => {
+        const btn = document.querySelector('button');
+        btn.textContent = 'Código Copiado!';
+        setTimeout(() => {
+          btn.textContent = 'Copiar Código Pix';
+        }, 2000);
+      }, () => {
+        alert('Não foi possível copiar o código.');
+      });
+    }
+  </script>
 </body>
 </html>
