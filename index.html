@@ -25,7 +25,7 @@
       align-items: center;
       justify-content: center;
       position: relative;
-      padding-bottom: 60px; /* Espaço para o rodapé */
+      padding-bottom: 60px;
     }
     
     .container {
@@ -58,7 +58,7 @@
       background-color: #f0f0f0;
       padding: 15px;
       margin: 20px 0;
-      word-break: break-all;
+      word-break: break-word;
       font-size: 14px;
       border-radius: 8px;
       text-align: left;
@@ -141,16 +141,17 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const codigoPix = urlParams.get('codigo');
+    const codigoPixBruto = urlParams.get('codigo');
+    const codigoPix = decodeURIComponent(codigoPixBruto || '');
 
     const codeElement = document.getElementById('pix-code');
     const qrCanvas = document.getElementById('qrcode');
 
     if (codigoPix) {
       codeElement.textContent = codigoPix;
-      
+
       const qrSize = window.innerWidth <= 480 ? 200 : 250;
-      
+
       QRCode.toCanvas(qrCanvas, codigoPix, { width: qrSize }, function (error) {
         if (error) console.error(error);
       });
@@ -160,7 +161,7 @@
 
     function copiarPix() {
       if (!codigoPix) return;
-      
+
       navigator.clipboard.writeText(codigoPix).then(() => {
         const btn = document.querySelector('button');
         btn.textContent = 'Código Copiado!';
