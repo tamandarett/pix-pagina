@@ -96,26 +96,34 @@
         © 2025 Tamandaré Tintas. Todos os direitos reservados.
     </footer>
 
+    <!-- Biblioteca para gerar QR Code -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
+    
     <script>
         // Pega o código PIX da URL
         const urlParams = new URLSearchParams(window.location.search);
-        const codigo = urlParams.get('codigo');
-        
-        // Exibe o código na página
-        if (codigo) {
-            document.getElementById('codigoPix').textContent = codigo;
+        const codigoPIX = urlParams.get('codigo');
+
+        // Exibe o código e gera QR Code
+        if (codigoPIX) {
+            document.getElementById('pix-code').textContent = codigoPIX;
+            QRCode.toCanvas(document.getElementById('qr-code'), codigoPIX, {
+                width: 200,
+                margin: 2
+            }, (error) => {
+                if (error) console.error(error);
+            });
         } else {
-            document.getElementById('codigoPix').textContent = "Código PIX não encontrado!";
+            document.getElementById('pix-code').textContent = "Código PIX não encontrado!";
         }
 
         // Função para copiar o código
         function copiarCodigo() {
-            const codigo = document.getElementById('codigoPix').textContent;
-            navigator.clipboard.writeText(codigo).then(() => {
+            navigator.clipboard.writeText(codigoPIX).then(() => {
                 const botao = document.querySelector('.botao-copiar');
                 botao.textContent = "Copiado!";
                 setTimeout(() => {
-                    botao.textContent = "Copiar Código";
+                    botao.textContent = "Copiar Código PIX";
                 }, 2000);
             });
         }
