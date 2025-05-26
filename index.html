@@ -52,36 +52,36 @@
         <button class="botao-copiar" onclick="copiarCodigo()">Copiar Código</button>
     </div>
 
-    <script>
-        function obterParametroUrl(nome) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(nome);
-        }
+<script>
+    function obterParametroUrl(nome) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(nome);
+    }
 
-        function copiarCodigo() {
-            const codigoPIX = document.getElementById('codigoPix').innerText;
-            navigator.clipboard.writeText(codigoPIX).then(() => {
-                alert('Código PIX copiado!');
-            }, (err) => {
-                alert('Erro ao copiar o código PIX');
-                console.error('Erro ao copiar: ', err);
-            });
-        }
+    function copiarCodigo() {
+        const codigoPIX = document.getElementById('codigoPix').innerText;
+        navigator.clipboard.writeText(codigoPIX).then(() => {
+            alert('Código PIX copiado!');
+        }, (err) => {
+            alert('Erro ao copiar o código PIX');
+            console.error('Erro ao copiar: ', err);
+        });
+    }
 
-        const codigoPIX = obterParametroUrl('codigo');
-        if (codigoPIX) {
-            document.getElementById('codigoPix').innerText = codigoPIX;
+    const codigoPIX = decodeURIComponent(obterParametroUrl('codigo')); // <- ESSA É A MUDANÇA IMPORTANTE
+    if (codigoPIX) {
+        document.getElementById('codigoPix').innerText = codigoPIX;
 
-            // Gerar QR Code
-            QRCode.toCanvas(document.getElementById('qr-code'), codigoPIX, {
-                width: 200,
-                margin: 2
-            }, (error) => {
-                if (error) console.error(error);
-            });
-        } else {
-            document.getElementById('codigoPix').innerText = 'Código PIX não encontrado na URL.';
-        }
-    </script>
+        // Gerar QR Code
+        QRCode.toCanvas(document.getElementById('qr-code'), codigoPIX, {
+            width: 200,
+            margin: 2
+        }, (error) => {
+            if (error) console.error(error);
+        });
+    } else {
+        document.getElementById('codigoPix').innerText = 'Código PIX não encontrado na URL.';
+    }
+</script>
 </body>
 </html>
