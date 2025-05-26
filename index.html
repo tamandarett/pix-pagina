@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento via PIX - Tamandaré Tintas</title>
+    <style>
+        :root {
+            --cor-primaria: #2563eb;
+            --cor-secundaria: #1e40af;
+            --fundo: #f9fafb;
+            --texto: #333333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--fundo);
+            color: var(--texto);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .logo {
+            max-width: 180px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: var(--cor-primaria);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .pix-code {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            word-break: break-all;
+            font-family: monospace;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .botao-copiar {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            max-width: 200px;
+            margin: 10px auto;
+            display: block;
+        }
+        
+        footer {
+            margin-top: auto;
+            padding: 15px;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Tamandaré Tintas" class="logo">
+        <h1>Pagamento via PIX</h1>
+        
+        <div class="pix-code" id="codigoPix">
+            Carregando código PIX...
+        </div>
+        
+        <button class="botao-copiar" onclick="copiarCodigo()">
+            Copiar Código
+        </button>
+    </div>
+    
+    <footer>
+        © 2025 Tamandaré Tintas. Todos os direitos reservados.
+    </footer>
+
+    <script>
+        // Pega o código PIX da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const codigo = urlParams.get('codigo');
+        
+        // Exibe o código na página
+        if (codigo) {
+            document.getElementById('codigoPix').textContent = codigo;
+        } else {
+            document.getElementById('codigoPix').textContent = "Código PIX não encontrado!";
+        }
+
+        // Função para copiar o código
+        function copiarCodigo() {
+            const codigo = document.getElementById('codigoPix').textContent;
+            navigator.clipboard.writeText(codigo).then(() => {
+                const botao = document.querySelector('.botao-copiar');
+                botao.textContent = "Copiado!";
+                setTimeout(() => {
+                    botao.textContent = "Copiar Código";
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
