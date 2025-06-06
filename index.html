@@ -11,7 +11,7 @@
       --cor-texto: #333;
       --cor-fundo: #f7f7f7;
     }
-    
+
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
       padding: 20px;
@@ -27,7 +27,7 @@
       position: relative;
       padding-bottom: 60px;
     }
-    
+
     .container {
       background-color: #fff;
       padding: 30px;
@@ -37,34 +37,32 @@
       max-width: 500px;
       margin: 20px auto;
     }
-    
+
     .logo {
       max-width: 180px;
       margin-bottom: 20px;
     }
-    
+
     h2 {
       color: var(--cor-primaria);
       margin-bottom: 15px;
     }
-    
+
     .instrucao {
       margin-bottom: 20px;
       color: #555;
     }
-    
-    code {
-      display: block;
+
+    .destaque {
       background-color: #f0f0f0;
       padding: 15px;
-      margin: 20px 0;
-      word-break: break-word;
-      font-size: 14px;
+      margin: 10px 0;
+      font-size: 15px;
       border-radius: 8px;
       text-align: left;
-      overflow-x: auto;
+      font-weight: bold;
     }
-    
+
     button {
       padding: 12px 24px;
       font-size: 16px;
@@ -79,11 +77,11 @@
       width: 100%;
       max-width: 250px;
     }
-    
+
     button:hover {
       background-color: var(--cor-secundaria);
     }
-    
+
     #qrcode {
       margin: 20px auto;
       display: block;
@@ -99,17 +97,17 @@
       font-size: 14px;
       padding: 10px 0;
     }
-    
+
     @media (max-width: 480px) {
       .container {
         padding: 20px;
       }
-      
-      code {
-        font-size: 12px;
+
+      .destaque {
+        font-size: 13px;
         padding: 12px;
       }
-      
+
       button {
         padding: 10px 20px;
       }
@@ -123,14 +121,15 @@
 <body>
   <div class="container">
     <img src="logo.png" alt="Tamandaré Tintas" class="logo">
-    
+
     <h2>Pagamento via Pix</h2>
-    <p class="instrucao">Escaneie o QR Code ou copie o código abaixo:</p>
-    
-    <code id="pix-code">Carregando código...</code>
-    
-    <button onclick="copiarPix()">Copiar Código Pix</button>
-    
+    <p class="instrucao">Confira os dados abaixo antes de confirmar o pagamento:</p>
+
+    <div class="destaque" id="beneficiario">Beneficiário: Carregando...</div>
+    <div class="destaque" id="valor">Valor: Carregando...</div>
+
+    <button id="btnCopiar" onclick="copiarPix()">Copiar Código Pix</button>
+
     <canvas id="qrcode"></canvas>
   </div>
 
@@ -144,29 +143,60 @@
     const codigoPixBruto = urlParams.get('codigo');
     const codigoPix = decodeURIComponent(codigoPixBruto || '');
 
-    const codeElement = document.getElementById('pix-code');
+    const beneficiarioEl = document.getElementById('beneficiario');
+    const valorEl = document.getElementById('valor');
+    const btnCopiar = document.getElementById('btnCopiar');
     const qrCanvas = document.getElementById('qrcode');
 
+    function extrairValor(codigo) {
+      const match = codigo.match(/54(\d{2})(\d+\.\d{2})/); // Ex: 5406100.00
+      if (match) return parseFloat(match[2]).toFixed(2);
+      return null;
+    }
+
+    function identificarBeneficiario(codigo) {
+      if (codigo.includes("TAMANDARETINTASDEINDAIATU")) {
+        return "Tamandaré Tintas de Indaiatuba LTDA";
+      }
+      if (codigo.includes("MARQUIVENTURINICOMERCIO")) {
+        return "Marqui & Venturini Comércio de Materiais para Pintura LTDA";
+      }
+      return null;
+    }
+
     if (codigoPix) {
-      codeElement.textContent = codigoPix;
+      const beneficiario = identificarBeneficiario(codigoPix);
+      const valor = extrairValor(codigoPix);
 
-      const qrSize = window.innerWidth <= 480 ? 200 : 250;
+      if (beneficiario) {
+        beneficiarioEl.textContent = `Beneficiário: ${beneficiario}`;
+        valorEl.textContent = valor ? `Valor: R$ ${valor.replace('.', ',')}` : 'Valor: Não identificado';
 
-      QRCode.toCanvas(qrCanvas, codigoPix, { width: qrSize }, function (error) {
-        if (error) console.error(error);
-      });
+        // AQUI ESTÁ A ALTERAÇÃO (OPÇÃO 2 - RESPONSIVO)
+        const qrSize = window.innerWidth <= 480 ? 200 : 250;
+        QRCode.toCanvas(qrCanvas, codigoPix, { width: qrSize }, function (error) {
+          if (error) console.error(error);
+        });
+      } else {
+        beneficiarioEl.textContent = 'Beneficiário não autorizado.';
+        valorEl.textContent = '';
+        qrCanvas.style.display = 'none';
+        btnCopiar.style.display = 'none';
+      }
     } else {
-      codeElement.textContent = 'Nenhum código Pix informado.';
+      beneficiarioEl.textContent = 'Nenhum código Pix informado.';
+      valorEl.textContent = '';
+      qrCanvas.style.display = 'none';
+      btnCopiar.style.display = 'none';
     }
 
     function copiarPix() {
       if (!codigoPix) return;
 
       navigator.clipboard.writeText(codigoPix).then(() => {
-        const btn = document.querySelector('button');
-        btn.textContent = 'Código Copiado!';
+        btnCopiar.textContent = 'Código Copiado!';
         setTimeout(() => {
-          btn.textContent = 'Copiar Código Pix';
+          btnCopiar.textContent = 'Copiar Código Pix';
         }, 2000);
       }, () => {
         alert('Não foi possível copiar o código.');
