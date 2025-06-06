@@ -137,7 +137,7 @@
     }
 
     if (!codigoPix || !codigoPix.startsWith("000201") || codigoPix.length < 100 || !codigoPix.includes("qrpix.bradesco.com.br")) {
-      alert("⚠️ Código Pix inválido ou suspeito! Verifique os dados antes de prosseguir.");
+      alert("⚠️ Código Pix inválido! Entre em contato com a Loja.");
       beneficiarioEl.textContent = "Código Pix inválido.";
       valorEl.textContent = "";
       qrCanvas.style.display = 'none';
