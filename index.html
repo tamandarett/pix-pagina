@@ -97,31 +97,11 @@
       font-size: 14px;
       padding: 10px 0;
     }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 20px;
-      }
-
-      .destaque {
-        font-size: 13px;
-        padding: 12px;
-      }
-
-      button {
-        padding: 10px 20px;
-      }
-
-      footer {
-        font-size: 12px;
-      }
-    }
   </style>
 </head>
 <body>
   <div class="container">
     <img src="logo.png" alt="Tamandaré Tintas" class="logo">
-
     <h2>Pagamento via Pix</h2>
     <p class="instrucao">Confira os dados abaixo antes de confirmar o pagamento:</p>
 
@@ -129,13 +109,10 @@
     <div class="destaque" id="valor">Valor: Carregando...</div>
 
     <button id="btnCopiar" onclick="copiarPix()">Copiar Código Pix</button>
-
     <canvas id="qrcode"></canvas>
   </div>
 
-  <footer>
-    © 2025 Tamandaré Tintas. Todos os direitos reservados.
-  </footer>
+  <footer>© 2025 Tamandaré Tintas. Todos os direitos reservados.</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
@@ -149,56 +126,45 @@
     const qrCanvas = document.getElementById('qrcode');
 
     function extrairValor(codigo) {
-      const match = codigo.match(/54(\d{2})(\d+\.\d{2})/); // Ex: 5406100.00
-      if (match) return parseFloat(match[2]).toFixed(2);
-      return null;
+      const match = codigo.match(/54\d{2}(\d+\.\d{2})/);
+      return match ? parseFloat(match[1]).toFixed(2) : null;
     }
 
     function identificarBeneficiario(codigo) {
-      if (codigo.includes("TAMANDARETINTASDEINDAIATU")) {
-        return "Tamandaré Tintas de Indaiatuba LTDA";
-      }
-      if (codigo.includes("MARQUIVENTURINICOMERCIO")) {
-        return "Marqui & Venturini Comércio de Materiais para Pintura LTDA";
-      }
+      if (codigo.includes("TAMANDARETINTASDEINDAIATU")) return "Tamandaré Tintas de Indaiatuba LTDA";
+      if (codigo.includes("MARQUIVENTURINICOMERCIO")) return "Marqui & Venturini Comércio de Materiais para Pintura LTDA";
       return null;
     }
 
-    if (codigoPix) {
+    if (!codigoPix || !codigoPix.startsWith("000201") || codigoPix.length < 100 || !codigoPix.includes("qrpix.bradesco.com.br")) {
+      alert("⚠️ Código Pix inválido ou suspeito! Verifique os dados antes de prosseguir.");
+      beneficiarioEl.textContent = "Código Pix inválido.";
+      valorEl.textContent = "";
+      qrCanvas.style.display = 'none';
+      btnCopiar.style.display = 'none';
+    } else {
       const beneficiario = identificarBeneficiario(codigoPix);
       const valor = extrairValor(codigoPix);
 
       if (beneficiario) {
         beneficiarioEl.textContent = `Beneficiário: ${beneficiario}`;
         valorEl.textContent = valor ? `Valor: R$ ${valor.replace('.', ',')}` : 'Valor: Não identificado';
-
-        // AQUI ESTÁ A ALTERAÇÃO (OPÇÃO 2 - RESPONSIVO)
-        const qrSize = window.innerWidth <= 480 ? 200 : 250;
-        QRCode.toCanvas(qrCanvas, codigoPix, { width: qrSize }, function (error) {
-          if (error) console.error(error);
-        });
+        QRCode.toCanvas(qrCanvas, codigoPix, { width: window.innerWidth <= 480 ? 200 : 250 });
       } else {
-        beneficiarioEl.textContent = 'Beneficiário não autorizado.';
-        valorEl.textContent = '';
+        alert("⚠️ Beneficiário não autorizado!");
+        beneficiarioEl.textContent = "Beneficiário não autorizado.";
+        valorEl.textContent = "";
         qrCanvas.style.display = 'none';
         btnCopiar.style.display = 'none';
       }
-    } else {
-      beneficiarioEl.textContent = 'Nenhum código Pix informado.';
-      valorEl.textContent = '';
-      qrCanvas.style.display = 'none';
-      btnCopiar.style.display = 'none';
     }
 
     function copiarPix() {
       if (!codigoPix) return;
-
       navigator.clipboard.writeText(codigoPix).then(() => {
         btnCopiar.textContent = 'Código Copiado!';
-        setTimeout(() => {
-          btnCopiar.textContent = 'Copiar Código Pix';
-        }, 2000);
-      }, () => {
+        setTimeout(() => { btnCopiar.textContent = 'Copiar Código Pix'; }, 2000);
+      }).catch(() => {
         alert('Não foi possível copiar o código.');
       });
     }
