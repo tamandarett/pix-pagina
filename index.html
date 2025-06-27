@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -126,16 +126,8 @@
     const qrCanvas = document.getElementById('qrcode');
 
     function extrairValor(codigo) {
-      const match = codigo.match(/54(\d{2})(\d+)/);
-      if (!match) return null;
-
-      const tamanho = parseInt(match[1]);
-      const valorTotal = match[2];
-      if (valorTotal.length !== tamanho) return null;
-
-      const inteiro = valorTotal.slice(0, -2);
-      const decimal = valorTotal.slice(-2);
-      return `${inteiro},${decimal}`;
+      const match = codigo.match(/54\d{2}(\d+\.\d{2})/);
+      return match ? parseFloat(match[1]).toFixed(2) : null;
     }
 
     function identificarBeneficiario(codigo) {
@@ -159,7 +151,7 @@
 
       if (beneficiario) {
         beneficiarioEl.textContent = `Beneficiário: ${beneficiario}`;
-        valorEl.textContent = valor ? `Valor: R$ ${valor}` : 'Valor: Não identificado';
+        valorEl.textContent = valor ? `Valor: R$ ${valor.replace('.', ',')}` : 'Valor: Não identificado';
         QRCode.toCanvas(qrCanvas, codigoPix, { width: window.innerWidth <= 480 ? 200 : 250 });
       } else {
         alert("⚠️ Beneficiário não autorizado!");
