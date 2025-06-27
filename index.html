@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -140,7 +140,10 @@
 
     function identificarBeneficiario(codigo) {
       if (codigo.includes("TAMANDARETINTASDEINDAIATU")) return "Tamandaré Tintas de Indaiatuba LTDA";
-      if (codigo.includes("MARQUIVENTURINICOMERCIO")) return "Marqui & Venturini Comércio de Materiais para Pintura LTDA";
+      if (
+        codigo.includes("MARQUIVENTURINICOMERCIO") ||
+        codigo.includes("MARQUI&VENTURINICOMERCIO")
+      ) return "Marqui & Venturini Comércio de Materiais para Pintura LTDA";
       return null;
     }
 
