@@ -3,7 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pagamento via Pix - Tamandaré Tintas</title>
+  <title>Pagamento Seguro - Tamandaré Tintas</title>
+
+  <meta property="og:title" content="Pagamento Seguro - Tamandaré Tintas">
+  <meta property="og:description" content="Toque aqui para conferir os dados e copiar o código PIX com segurança.">
+  
+  <meta property="og:image" content="https://tamandarett.github.io/pix-pagina/logo.png">
+  
+  <meta property="og:image:width" content="300">
+  <meta property="og:image:height" content="300">
+  <meta property="og:type" content="website">
+
   <style>
     :root {
       --cor-primaria: #0056b3;
@@ -61,6 +71,7 @@
       border-radius: 8px;
       text-align: left;
       font-weight: bold;
+      word-break: break-word;
     }
 
     button {
@@ -118,7 +129,7 @@
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const codigoPixBruto = urlParams.get('codigo');
-    const codigoPix = decodeURIComponent(codigoPixBruto || '');
+    const codigoPix = decodeURIComponent(codigoPixBruto || '').trim();
 
     const beneficiarioEl = document.getElementById('beneficiario');
     const valorEl = document.getElementById('valor');
@@ -131,31 +142,43 @@
     }
 
     function identificarBeneficiario(codigo) {
-      if (codigo.includes("TAMANDARETINTASDEINDAIATU")) return "Tamandaré Tintas de Indaiatuba LTDA";
-      if (
-        codigo.includes("MARQUIVENTURINICOMERCIO") ||
-        codigo.includes("MARQUI&VENTURINICOMERCIO")
-      ) return "Marqui & Venturini Comércio de Materiais para Pintura LTDA";
+      if (codigo.includes("TAMANDARETINTAS")) return "Tamandaré Tintas de Indaiatuba LTDA";
+      if (codigo.includes("MARQUIVENTURINI") || codigo.includes("MARQUI&VENTURINI")) return "Marqui & Venturini Comércio";
       return null;
     }
 
+    // ============================================================
+    // VALIDAÇÃO DE SEGURANÇA (BRADESCO)
+    // ============================================================
     if (!codigoPix || !codigoPix.startsWith("000201") || codigoPix.length < 100 || !codigoPix.includes("qrpix.bradesco.com.br")) {
-      alert("⚠️ Código Pix inválido! Entre em contato com a Loja.");
-      beneficiarioEl.textContent = "Código Pix inválido.";
+      
+      console.error("Bloqueio de segurança ativado.");
+      alert("⚠️ Código Pix inválido! Este sistema aceita apenas códigos oficiais do Bradesco gerados pela Loja.");
+      
+      beneficiarioEl.textContent = "Erro: Código Pix inválido.";
+      beneficiarioEl.style.color = "red";
       valorEl.textContent = "";
       qrCanvas.style.display = 'none';
       btnCopiar.style.display = 'none';
+
     } else {
+      // Se passou na segurança do Bradesco:
       const beneficiario = identificarBeneficiario(codigoPix);
       const valor = extrairValor(codigoPix);
 
       if (beneficiario) {
         beneficiarioEl.textContent = `Beneficiário: ${beneficiario}`;
         valorEl.textContent = valor ? `Valor: R$ ${valor.replace('.', ',')}` : 'Valor: Não identificado';
-        QRCode.toCanvas(qrCanvas, codigoPix, { width: window.innerWidth <= 480 ? 200 : 250 });
+        
+        QRCode.toCanvas(qrCanvas, codigoPix, { 
+            width: window.innerWidth <= 480 ? 200 : 250,
+            margin: 2
+        });
       } else {
+        // Bloqueio extra: É Bradesco, mas o nome do beneficiário não bate
         alert("⚠️ Beneficiário não autorizado!");
         beneficiarioEl.textContent = "Beneficiário não autorizado.";
+        beneficiarioEl.style.color = "red";
         valorEl.textContent = "";
         qrCanvas.style.display = 'none';
         btnCopiar.style.display = 'none';
@@ -164,12 +187,36 @@
 
     function copiarPix() {
       if (!codigoPix) return;
-      navigator.clipboard.writeText(codigoPix).then(() => {
-        btnCopiar.textContent = 'Código Copiado!';
-        setTimeout(() => { btnCopiar.textContent = 'Copiar Código Pix'; }, 2000);
-      }).catch(() => {
-        alert('Não foi possível copiar o código.');
-      });
+      
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(codigoPix).then(() => {
+            btnCopiar.textContent = 'Copiado!';
+            btnCopiar.style.backgroundColor = '#10b981';
+            setTimeout(() => { 
+                btnCopiar.textContent = 'Copiar Código Pix'; 
+                btnCopiar.style.backgroundColor = '';
+            }, 2000);
+          }).catch(() => {
+            copiarFallback();
+          });
+      } else {
+          copiarFallback();
+      }
+    }
+
+    function copiarFallback() {
+        const tempTextArea = document.createElement("textarea");
+        tempTextArea.value = codigoPix;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        try {
+            document.execCommand("copy");
+            btnCopiar.textContent = 'Copiado!';
+            setTimeout(() => { btnCopiar.textContent = 'Copiar Código Pix'; }, 2000);
+        } catch (err) {
+            alert('Não foi possível copiar automaticamente.');
+        }
+        document.body.removeChild(tempTextArea);
     }
   </script>
 </body>
