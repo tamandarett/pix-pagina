@@ -8,10 +8,10 @@
   <meta property="og:title" content="Pagamento Seguro - Tamandaré Tintas">
   <meta property="og:description" content="Toque aqui para conferir os dados e copiar o código PIX com segurança.">
   
-  <meta property="og:image" content="https://tamandarett.github.io/pix-pagina/logo.png">
+  <meta property="og:image" content="https://tamandarett.github.io/pix-pagina/social.png">
   
-  <meta property="og:image:width" content="300">
-  <meta property="og:image:height" content="300">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:type" content="website">
 
   <style>
@@ -49,7 +49,7 @@
     }
 
     .logo {
-      max-width: 180px;
+      max-width: 180px; /* VOLTOU AO TAMANHO ORIGINAL */
       margin-bottom: 20px;
     }
 
@@ -148,7 +148,7 @@
     }
 
     // ============================================================
-    // VALIDAÇÃO DE SEGURANÇA (BRADESCO)
+    // VALIDAÇÃO DE SEGURANÇA (BRADESCO) - MANTIDA INTACTA
     // ============================================================
     if (!codigoPix || !codigoPix.startsWith("000201") || codigoPix.length < 100 || !codigoPix.includes("qrpix.bradesco.com.br")) {
       
