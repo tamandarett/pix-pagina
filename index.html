@@ -137,8 +137,32 @@
     const qrCanvas = document.getElementById('qrcode');
 
     function extrairValor(codigo) {
-      const match = codigo.match(/54\d{2}(\d+\.\d{2})/);
-      return match ? parseFloat(match[1]).toFixed(2) : null;
+      try {
+        let i = 0;
+        while (i < codigo.length) {
+          // Pega o ID (2 digitos) e o Tamanho (2 digitos)
+          const id = codigo.substring(i, i + 2);
+          const len = parseInt(codigo.substring(i + 2, i + 4), 10);
+          
+          // Se não conseguir ler o tamanho, o código está quebrado
+          if (isNaN(len)) break;
+
+          // Pega o valor baseado no tamanho indicado
+          const valor = codigo.substring(i + 4, i + 4 + len);
+
+          // ID 54 é o Valor da Transação no padrão EMV
+          if (id === '54') {
+             // Retorna o valor exato, garantindo duas casas decimais se necessário
+             return parseFloat(valor).toFixed(2);
+          }
+
+          // Pula para o próximo bloco
+          i += 4 + len;
+        }
+      } catch (e) {
+        console.error("Erro ao ler estrutura Pix", e);
+      }
+      return null;
     }
 
     function identificarBeneficiario(codigo) {
