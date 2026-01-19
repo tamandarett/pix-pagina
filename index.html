@@ -5,24 +5,115 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pagamento Seguro - Tamandaré Tintas</title>
 
-<!-- OPEN GRAPH - ANTES DE QUALQUER SCRIPT -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://tamandarett.github.io/pix-pagina/">
+<!-- Open Graph para WhatsApp (CRÍTICO) -->
 <meta property="og:title" content="Pagamento Seguro - Tamandaré Tintas">
 <meta property="og:description" content="Toque aqui para conferir os dados e copiar o código PIX com segurança.">
-<meta property="og:image" content="https://tamandarett.github.io/pix-pagina/bannerpix.png">
+<meta property="og:image" content="https://tamandarett.github.io/pix-pagina/bannerpix.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tamandarett.github.io/pix-pagina/">
 
-<!-- TWITTER CARD -->
+<!-- Twitter Card (redundante com OG, mas útil) -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Pagamento Seguro - Tamandaré Tintas">
 <meta name="twitter:description" content="Toque aqui para conferir os dados e copiar o código PIX com segurança.">
-<meta name="twitter:image" content="https://tamandarett.github.io/pix-pagina/bannerpix.png">
-
+<meta name="twitter:image" content="https://tamandarett.github.io/pix-pagina/bannerpix.png?v=2">
   <style>
-    /* seu CSS aqui - mantém igual */
+    :root {
+      --cor-primaria: #0056b3;
+      --cor-secundaria: #003d82;
+      --cor-texto: #333;
+      --cor-fundo: #f7f7f7;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      padding: 20px;
+      background-color: var(--cor-fundo);
+      text-align: center;
+      color: var(--cor-texto);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
+    }
+
+    .logo {
+      max-width: 180px; /* VOLTOU AO TAMANHO ORIGINAL */
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: var(--cor-primaria);
+      margin-bottom: 15px;
+    }
+
+    .instrucao {
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    .destaque {
+      background-color: #f0f0f0;
+      padding: 15px;
+      margin: 10px 0;
+      font-size: 15px;
+      border-radius: 8px;
+      text-align: left;
+      font-weight: bold;
+      word-break: break-word;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      background-color: var(--cor-primaria);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin: 10px 0;
+      width: 100%;
+      max-width: 250px;
+    }
+
+    button:hover {
+      background-color: var(--cor-secundaria);
+    }
+
+    #qrcode {
+      margin: 20px auto;
+      display: block;
+      max-width: 100%;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      padding: 10px 0;
+    }
   </style>
 </head>
 <body>
@@ -42,9 +133,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
-    // ⚠️ DETECTA SE É BOT DO WHATSAPP
-    const isBot = /WhatsApp|facebookexternalhit|Twitterbot|LinkedInBot|Slurp/i.test(navigator.userAgent);
-
     const urlParams = new URLSearchParams(window.location.search);
     const codigoPixBruto = urlParams.get('codigo');
     const codigoPix = decodeURIComponent(codigoPixBruto || '').trim();
@@ -54,18 +142,27 @@
     const btnCopiar = document.getElementById('btnCopiar');
     const qrCanvas = document.getElementById('qrcode');
 
-    // FUNÇÕES AUXILIARES (mantém igual)
     function extrairValor(codigo) {
       try {
         let i = 0;
         while (i < codigo.length) {
+          // Pega o ID (2 digitos) e o Tamanho (2 digitos)
           const id = codigo.substring(i, i + 2);
           const len = parseInt(codigo.substring(i + 2, i + 4), 10);
+          
+          // Se não conseguir ler o tamanho, o código está quebrado
           if (isNaN(len)) break;
+
+          // Pega o valor baseado no tamanho indicado
           const valor = codigo.substring(i + 4, i + 4 + len);
+
+          // ID 54 é o Valor da Transação no padrão EMV
           if (id === '54') {
+             // Retorna o valor exato, garantindo duas casas decimais se necessário
              return parseFloat(valor).toFixed(2);
           }
+
+          // Pula para o próximo bloco
           i += 4 + len;
         }
       } catch (e) {
@@ -80,13 +177,11 @@
       return null;
     }
 
-    // ⚠️ NÃO MOSTRA ERRO SE FOR BOT
-    if (isBot) {
-      // WhatsApp/Slack/etc está lendo a página = NÃO FAZ NADA
-      // As meta tags já foram lidas no <head>
-      console.log("Bot detectado - meta tags já carregadas");
-    } else if (!codigoPix || !codigoPix.startsWith("000201") || codigoPix.length < 100 || !codigoPix.includes("qrpix.bradesco.com.br")) {
-      // ❌ USUÁRIO REAL TENTANDO ACESSAR SEM CÓDIGO VÁLIDO
+    // ============================================================
+    // VALIDAÇÃO DE SEGURANÇA (BRADESCO) - MANTIDA INTACTA
+    // ============================================================
+    if (!codigoPix || !codigoPix.startsWith("000201") || codigoPix.length < 100 || !codigoPix.includes("qrpix.bradesco.com.br")) {
+      
       console.error("Bloqueio de segurança ativado.");
       alert("⚠️ Código Pix inválido! Este sistema aceita apenas códigos oficiais do Bradesco gerados pela Loja.");
       
@@ -95,8 +190,9 @@
       valorEl.textContent = "";
       qrCanvas.style.display = 'none';
       btnCopiar.style.display = 'none';
+
     } else {
-      // ✅ CÓDIGO VÁLIDO
+      // Se passou na segurança do Bradesco:
       const beneficiario = identificarBeneficiario(codigoPix);
       const valor = extrairValor(codigoPix);
 
@@ -109,6 +205,7 @@
             margin: 2
         });
       } else {
+        // Bloqueio extra: É Bradesco, mas o nome do beneficiário não bate
         alert("⚠️ Beneficiário não autorizado!");
         beneficiarioEl.textContent = "Beneficiário não autorizado.";
         beneficiarioEl.style.color = "red";
