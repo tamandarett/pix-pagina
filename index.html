@@ -5,31 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pagamento Seguro - Tamandaré Tintas</title>
 
-<!-- Open Graph para WhatsApp (CRÍTICO) -->
-<meta property="og:title" content="Pagamento Seguro - Tamandaré Tintas">
-<meta property="og:description" content="Toque aqui para conferir os dados e copiar o código PIX com segurança.">
-<meta property="og:image" content="https://tamandarett.github.io/pix-pagina/bannerpix.png?v=2">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:type" content="image/png">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://tamandarett.github.io/pix-pagina/">
+  <link rel="shortcut icon" type="image/png" href="favicon.png">
 
-<!-- Twitter Card (redundante com OG, mas útil) -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Pagamento Seguro - Tamandaré Tintas">
-<meta name="twitter:description" content="Toque aqui para conferir os dados e copiar o código PIX com segurança.">
-<meta name="twitter:image" content="https://tamandarett.github.io/pix-pagina/bannerpix.png?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZLLPRZTHKK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-ZLLPRZTHKK');
+  </script>
+
+  <meta property="og:title" content="Pagamento Seguro - Tamandaré Tintas">
+  <meta property="og:description" content="Toque aqui para conferir os dados e copiar o código PIX com segurança.">
+  <meta property="og:image" content="https://tamandarett.github.io/pix-pagina/bannerpix.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tamandarett.github.io/pix-pagina/">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pagamento Seguro - Tamandaré Tintas">
+  <meta name="twitter:description" content="Toque aqui para conferir os dados e copiar o código PIX com segurança.">
+  <meta name="twitter:image" content="https://tamandarett.github.io/pix-pagina/bannerpix.png?v=2">
+  
   <style>
     :root {
-      --cor-primaria: #0056b3;
-      --cor-secundaria: #003d82;
-      --cor-texto: #333;
-      --cor-fundo: #f7f7f7;
+      --cor-primaria: #D32F2F; /* Vermelho Tamandaré */
+      --cor-secundaria: #B71C1C;
+      --cor-texto: #2D3748;
+      --cor-fundo: #F4F7F6;
+      --border-color: #E2E8F0;
     }
 
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       padding: 20px;
       background-color: var(--cor-fundo);
       text-align: center;
@@ -46,63 +61,101 @@
 
     .container {
       background-color: #fff;
-      padding: 30px;
+      padding: 35px 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-color);
       width: 100%;
-      max-width: 500px;
+      max-width: 480px;
       margin: 20px auto;
     }
 
     .logo {
-      max-width: 180px; /* VOLTOU AO TAMANHO ORIGINAL */
-      margin-bottom: 20px;
+      max-width: 180px;
+      margin-bottom: 25px;
     }
 
     h2 {
-      color: var(--cor-primaria);
-      margin-bottom: 15px;
+      color: var(--cor-texto);
+      font-weight: 700;
+      font-size: 22px;
+      margin-bottom: 8px;
+      margin-top: 0;
     }
 
     .instrucao {
+      margin-bottom: 25px;
+      color: #718096;
+      font-size: 15px;
+    }
+
+    /* Estilo do Alerta Bonito (Substitui o alert nativo) */
+    .alerta-erro {
+      background-color: #FFF5F5;
+      color: #C53030;
+      border: 1px solid #FED7D7;
+      padding: 14px;
+      border-radius: 8px;
       margin-bottom: 20px;
-      color: #555;
+      font-weight: 600;
+      font-size: 14px;
+      text-align: left;
+      display: none; /* Fica oculto por padrão */
     }
 
     .destaque {
-      background-color: #f0f0f0;
-      padding: 15px;
-      margin: 10px 0;
+      background-color: #F8FAFC;
+      border: 1px solid var(--border-color);
+      padding: 16px;
+      margin: 12px 0;
       font-size: 15px;
       border-radius: 8px;
       text-align: left;
-      font-weight: bold;
+      font-weight: 600;
       word-break: break-word;
+      color: #4A5568;
+    }
+
+    .destaque span {
+      color: var(--cor-texto);
+      font-weight: 700;
+      display: block;
+      margin-top: 4px;
     }
 
     button {
-      padding: 12px 24px;
+      padding: 14px 24px;
       font-size: 16px;
+      font-family: 'Inter', sans-serif;
       font-weight: 600;
       background-color: var(--cor-primaria);
       color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s;
-      margin: 10px 0;
+      transition: all 0.2s ease;
+      margin: 15px 0 10px 0;
       width: 100%;
-      max-width: 250px;
+      box-shadow: 0 4px 6px rgba(211, 47, 47, 0.2);
     }
 
     button:hover {
       background-color: var(--cor-secundaria);
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
     }
 
     #qrcode {
-      margin: 20px auto;
+      margin: 25px auto 10px auto;
       display: block;
       max-width: 100%;
+      border-radius: 8px;
+      padding: 10px;
+      background: white;
+      border: 1px solid var(--border-color);
     }
 
     footer {
@@ -110,26 +163,29 @@
       bottom: 20px;
       width: 100%;
       text-align: center;
-      color: #666;
-      font-size: 14px;
+      color: #A0AEC0;
+      font-size: 13px;
       padding: 10px 0;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="logo.png" alt="Tamandaré Tintas" class="logo">
+    <img src="logo.png" alt="Tamandaré Tintas" class="logo" onerror="this.style.display='none'">
+    
     <h2>Pagamento via Pix</h2>
     <p class="instrucao">Confira os dados abaixo antes de confirmar o pagamento:</p>
 
-    <div class="destaque" id="beneficiario">Beneficiário: Carregando...</div>
-    <div class="destaque" id="valor">Valor: Carregando...</div>
+    <div id="mensagem-erro" class="alerta-erro"></div>
+
+    <div class="destaque" id="box-beneficiario">Beneficiário: <span id="beneficiario">Carregando...</span></div>
+    <div class="destaque" id="box-valor">Valor: <span id="valor">Carregando...</span></div>
 
     <button id="btnCopiar" onclick="copiarPix()">Copiar Código Pix</button>
     <canvas id="qrcode"></canvas>
   </div>
 
-  <footer>© 2026 Tamandaré Tintas. Todos os direitos reservados.</footer>
+  <footer>© 2026 Tamandaré Tintas. Operação Segura.</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
@@ -141,6 +197,15 @@
     const valorEl = document.getElementById('valor');
     const btnCopiar = document.getElementById('btnCopiar');
     const qrCanvas = document.getElementById('qrcode');
+    const boxBeneficiario = document.getElementById('box-beneficiario');
+    const boxValor = document.getElementById('box-valor');
+    const mensagemErro = document.getElementById('mensagem-erro');
+
+    // Função auxiliar para exibir erros na tela sem usar o alert()
+    function mostrarErro(mensagem) {
+      mensagemErro.innerHTML = mensagem;
+      mensagemErro.style.display = 'block';
+    }
 
     function extrairValor(codigo) {
       try {
@@ -183,11 +248,10 @@
     if (!codigoPix || !codigoPix.startsWith("000201") || codigoPix.length < 100 || !codigoPix.includes("qrpix.bradesco.com.br")) {
       
       console.error("Bloqueio de segurança ativado.");
-      alert("⚠️ Código Pix inválido! Este sistema aceita apenas códigos oficiais do Bradesco gerados pela Loja.");
+      mostrarErro("⚠️ <b>Código Pix inválido.</b><br>Este sistema aceita apenas códigos oficiais gerados pelo sistema da loja.");
       
-      beneficiarioEl.textContent = "Erro: Código Pix inválido.";
-      beneficiarioEl.style.color = "red";
-      valorEl.textContent = "";
+      boxBeneficiario.style.display = 'none';
+      boxValor.style.display = 'none';
       qrCanvas.style.display = 'none';
       btnCopiar.style.display = 'none';
 
@@ -197,19 +261,20 @@
       const valor = extrairValor(codigoPix);
 
       if (beneficiario) {
-        beneficiarioEl.textContent = `Beneficiário: ${beneficiario}`;
-        valorEl.textContent = valor ? `Valor: R$ ${valor.replace('.', ',')}` : 'Valor: Não identificado';
+        beneficiarioEl.textContent = beneficiario;
+        valorEl.textContent = valor ? `R$ ${valor.replace('.', ',')}` : 'Não identificado no código';
         
         QRCode.toCanvas(qrCanvas, codigoPix, { 
             width: window.innerWidth <= 480 ? 200 : 250,
-            margin: 2
+            margin: 2,
+            color: { dark: '#2D3748', light: '#FFFFFF' }
         });
       } else {
         // Bloqueio extra: É Bradesco, mas o nome do beneficiário não bate
-        alert("⚠️ Beneficiário não autorizado!");
-        beneficiarioEl.textContent = "Beneficiário não autorizado.";
-        beneficiarioEl.style.color = "red";
-        valorEl.textContent = "";
+        mostrarErro("⚠️ <b>Beneficiário não autorizado.</b><br>O recebedor deste Pix não confere com nossas lojas oficiais.");
+        
+        boxBeneficiario.style.display = 'none';
+        boxValor.style.display = 'none';
         qrCanvas.style.display = 'none';
         btnCopiar.style.display = 'none';
       }
@@ -220,8 +285,8 @@
       
       if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(codigoPix).then(() => {
-            btnCopiar.textContent = 'Copiado!';
-            btnCopiar.style.backgroundColor = '#10b981';
+            btnCopiar.textContent = 'Copiado com Sucesso!';
+            btnCopiar.style.backgroundColor = '#2F855A'; /* Verde Sucesso */
             setTimeout(() => { 
                 btnCopiar.textContent = 'Copiar Código Pix'; 
                 btnCopiar.style.backgroundColor = '';
@@ -241,10 +306,14 @@
         tempTextArea.select();
         try {
             document.execCommand("copy");
-            btnCopiar.textContent = 'Copiado!';
-            setTimeout(() => { btnCopiar.textContent = 'Copiar Código Pix'; }, 2000);
+            btnCopiar.textContent = 'Copiado com Sucesso!';
+            btnCopiar.style.backgroundColor = '#2F855A';
+            setTimeout(() => { 
+                btnCopiar.textContent = 'Copiar Código Pix'; 
+                btnCopiar.style.backgroundColor = '';
+            }, 2000);
         } catch (err) {
-            alert('Não foi possível copiar automaticamente.');
+            mostrarErro("⚠️ Não foi possível copiar automaticamente. Selecione e copie o código manualmente.");
         }
         document.body.removeChild(tempTextArea);
     }
