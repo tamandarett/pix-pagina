@@ -32,7 +32,6 @@
       text-align: center;
       color: var(--cor-texto);
       margin: 0;
-      /* Padding adicionado para o banner flutuar e não encostar no topo */
       padding: 20px;
       min-height: 100vh;
       display: flex;
@@ -41,32 +40,34 @@
       justify-content: center;
     }
 
-    /* BANNER FLUTUANTE COM +25% DE ALTURA VERTICAL */
+    /* --- BANNER INSTAGRAM (PC) --- */
     .banner-insta {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: center; /* Centraliza o conteúdo horizontalmente no PC */
       background: linear-gradient(135deg, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #FFC837);
       width: 100%;
-      max-width: 700px;
-      /* Padding vertical aumentado substancialmente (+25%+) */
-      padding: 30px 25px; 
+      max-width: 700px; /* Mesma largura do container */
+      padding: 25px; /* Padding vertical generoso mantido */
       text-decoration: none;
       color: white;
-      border-radius: 50px; /* Bordinha arredondada estilo pílula */
-      margin-bottom: 30px; /* Espaço para o container abaixo */
-      box-shadow: 0 8px 20px rgba(225, 48, 108, 0.3);
+      border-radius: 12px; /* Mesma bordinha do container (retangular) */
+      /* Efeito de "folha atrás": margem negativa e z-index */
+      margin-bottom: -15px; 
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 4px 10px rgba(225, 48, 108, 0.15);
       transition: all 0.2s ease;
     }
 
     .banner-insta:hover { 
-      transform: translateY(-3px); 
-      box-shadow: 0 12px 25px rgba(225, 48, 108, 0.4); 
+      transform: translateY(-2px); 
+      box-shadow: 0 8px 15px rgba(225, 48, 108, 0.2); 
     }
 
     .insta-icon {
-      /* Ícone aumentado para acompanhar a altura do banner */
-      font-size: 35px; 
+      /* Ícone +25% maior que o anterior */
+      font-size: 40px; 
       margin-right: 20px;
       border-right: 1px solid rgba(255,255,255,0.4);
       padding-right: 20px;
@@ -75,12 +76,13 @@
     }
 
     .insta-text {
-      text-align: left;
+      /* Dizeres Centralizados conforme solicitado */
+      text-align: center;
     }
 
     .insta-text b { 
       display: block; 
-      font-size: 15px; /* Texto levemente maior */
+      font-size: 15px; 
       text-transform: uppercase; 
       letter-spacing: 1px; 
       line-height: 1.2;
@@ -95,6 +97,7 @@
       display: block;
     }
 
+    /* --- CONTAINER DADOS (PC) --- */
     .container {
       background-color: #fff;
       padding: 35px 30px;
@@ -104,6 +107,8 @@
       width: 100%;
       max-width: 700px;
       margin: 0 auto;
+      position: relative;
+      z-index: 2; /* Fica à frente do banner no PC */
     }
 
     .conteudo-flex {
@@ -135,6 +140,7 @@
       box-shadow: 0 4px 6px rgba(211, 47, 47, 0.2);
     }
 
+    /* Canvas (QR Code) no PC */
     #qrcode { display: block; max-width: 100%; border-radius: 8px; padding: 10px; background: white; border: 1px solid var(--border-color); }
 
     .btn-gaveta {
@@ -145,18 +151,41 @@
 
     footer { width: 100%; text-align: center; color: #A0AEC0; font-size: 13px; padding: 20px 0; margin-top: auto; }
 
+    /* =========================================
+       AJUSTES ESPECÍFICOS PARA DISPOSITIVOS MÓVEIS 
+       ========================================= */
     @media (max-width: 600px) {
       body { background-color: #fff; padding: 15px; }
+      
+      /* Banner Mobile: Volta a ser pílula para design limpo */
       .banner-insta { 
-        border-radius: 20px; /* Borda menos agressiva no mobile */
+        border-radius: 50px; 
         padding: 20px 15px; 
-        margin-bottom: 20px;
+        margin-bottom: 23px; /* Espaço sutilmente maior para o logo (+15%) */
+        margin-top: 0; /* Remove margem negativa do PC */
+        justify-content: flex-start; /* Alinha ícone e texto à esquerda no Mobile */
+        text-align: left;
       }
       .insta-icon { font-size: 28px; margin-right: 12px; padding-right: 12px; }
-      .container { border: none; box-shadow: none; padding: 10px; margin: 0 auto; width: 100%; }
+      .insta-text { text-align: left; } /* Texto volta à esquerda no mobile */
+
+      .container { border: none; box-shadow: none; padding: 10px; margin: 0 auto; width: 100%; z-index: 1; }
+      
       .conteudo-flex { flex-direction: column; gap: 10px; }
-      .qrcode-coluna { display: none; width: 100%; }
-      .btn-gaveta { display: block; }
+      
+      /* GAVETA LOGIC E CENTRALIZAÇÃO DO QR CODE MOBILE */
+      .qrcode-coluna { 
+        display: none; /* Escondido por padrão */
+        width: 100%; 
+        text-align: center; /* Centraliza o conteúdo da coluna */
+      }
+      .btn-gaveta { display: block; } /* Mostra o botão da gaveta */
+      
+      /* Força o alinhamento central do QR Code quando aberto no Mobile */
+      #qrcode { 
+        margin: 20px auto !important; 
+        display: inline-block !important; /* Ajuda na centralização com text-align: center */
+      }
     }
   </style>
 </head>
@@ -164,7 +193,7 @@
 
   <a href="https://www.instagram.com/tamandare.tintas/" target="_blank" class="banner-insta">
     <div class="insta-icon">
-      <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
     </div>
     <div class="insta-text">
       <b>Siga a Tamandaré Tintas no Instagram</b>
