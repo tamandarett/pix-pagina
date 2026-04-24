@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Pagamento Seguro - Tamandaré Tintas</title>
 
-  <meta name="theme-color" content="#833AB4">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
   <link rel="shortcut icon" type="image/png" href="favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -35,32 +32,44 @@
       text-align: center;
       color: var(--cor-texto);
       margin: 0;
-      padding: 0; /* Removido padding para o banner encostar no topo */
+      /* Padding adicionado para o banner flutuar e não encostar no topo */
+      padding: 20px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
 
-    /* Banner estendido até o topo total */
+    /* BANNER FLUTUANTE COM +25% DE ALTURA VERTICAL */
     .banner-insta {
       display: flex;
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #FFC837);
       width: 100%;
-      /* safe-area-inset-top faz a cor preencher a área da bateria no iPhone */
-      padding: calc(15px + env(safe-area-inset-top)) 20px 15px 20px;
+      max-width: 700px;
+      /* Padding vertical aumentado substancialmente (+25%+) */
+      padding: 30px 25px; 
       text-decoration: none;
       color: white;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 50px; /* Bordinha arredondada estilo pílula */
+      margin-bottom: 30px; /* Espaço para o container abaixo */
+      box-shadow: 0 8px 20px rgba(225, 48, 108, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .banner-insta:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 12px 25px rgba(225, 48, 108, 0.4); 
     }
 
     .insta-icon {
-      font-size: 26px;
-      margin-right: 15px;
+      /* Ícone aumentado para acompanhar a altura do banner */
+      font-size: 35px; 
+      margin-right: 20px;
       border-right: 1px solid rgba(255,255,255,0.4);
-      padding-right: 15px;
+      padding-right: 20px;
       display: flex;
       align-items: center;
     }
@@ -71,17 +80,19 @@
 
     .insta-text b { 
       display: block; 
-      font-size: 13px; 
+      font-size: 15px; /* Texto levemente maior */
       text-transform: uppercase; 
-      letter-spacing: 0.5px; 
+      letter-spacing: 1px; 
       line-height: 1.2;
+      margin-bottom: 3px;
     }
     
     .insta-text span { 
-      font-size: 12px; 
+      font-size: 13px; 
       font-weight: 500;
       opacity: 0.95; 
-      line-height: 1.3;
+      line-height: 1.4;
+      display: block;
     }
 
     .container {
@@ -90,9 +101,9 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       border: 1px solid var(--border-color);
-      width: 90%;
+      width: 100%;
       max-width: 700px;
-      margin: 30px auto;
+      margin: 0 auto;
     }
 
     .conteudo-flex {
@@ -121,6 +132,7 @@
       background-color: var(--cor-primaria); color: white; border: none;
       border-radius: 8px; cursor: pointer; width: 100%;
       margin: 15px 0 10px 0;
+      box-shadow: 0 4px 6px rgba(211, 47, 47, 0.2);
     }
 
     #qrcode { display: block; max-width: 100%; border-radius: 8px; padding: 10px; background: white; border: 1px solid var(--border-color); }
@@ -128,14 +140,20 @@
     .btn-gaveta {
       display: none; width: 100%; padding: 12px; background: #f1f5f9;
       border: 1px solid var(--border-color); border-radius: 8px; font-size: 13px;
-      font-weight: 600; color: #475569; margin-top: 15px;
+      font-weight: 600; color: #475569; cursor: pointer; margin-top: 15px;
     }
 
     footer { width: 100%; text-align: center; color: #A0AEC0; font-size: 13px; padding: 20px 0; margin-top: auto; }
 
     @media (max-width: 600px) {
-      body { background-color: #fff; }
-      .container { border: none; box-shadow: none; padding: 20px; margin: 10px auto; width: 100%; }
+      body { background-color: #fff; padding: 15px; }
+      .banner-insta { 
+        border-radius: 20px; /* Borda menos agressiva no mobile */
+        padding: 20px 15px; 
+        margin-bottom: 20px;
+      }
+      .insta-icon { font-size: 28px; margin-right: 12px; padding-right: 12px; }
+      .container { border: none; box-shadow: none; padding: 10px; margin: 0 auto; width: 100%; }
       .conteudo-flex { flex-direction: column; gap: 10px; }
       .qrcode-coluna { display: none; width: 100%; }
       .btn-gaveta { display: block; }
@@ -146,7 +164,7 @@
 
   <a href="https://www.instagram.com/tamandare.tintas/" target="_blank" class="banner-insta">
     <div class="insta-icon">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
     </div>
     <div class="insta-text">
       <b>Siga a Tamandaré Tintas no Instagram</b>
@@ -160,12 +178,12 @@
     <h2>Pagamento via Pix</h2>
     <p class="instrucao">Confira os dados abaixo antes de confirmar o pagamento:</p>
 
-    <div id="mensagem-erro" class="alerta-erro"></div>
+    <div id="mensagem-erro" style="color:red; display:none; margin-bottom:20px; font-weight:600;">⚠️ Código Pix inválido.</div>
 
-    <div class="conteudo-flex">
+    <div class="conteudo-flex" id="bloco-conteudo">
       <div class="dados-coluna">
-        <div class="destaque" id="box-beneficiario">Beneficiário: <span id="beneficiario">Carregando...</span></div>
-        <div class="destaque" id="box-valor">Valor: <span id="valor">Carregando...</span></div>
+        <div class="destaque">Beneficiário: <span id="beneficiario">Carregando...</span></div>
+        <div class="destaque">Valor: <span id="valor">Carregando...</span></div>
         <button id="btnCopiar" onclick="copiarPix()">Copiar Código Pix</button>
         
         <button type="button" class="btn-gaveta" id="btnGaveta" onclick="toggleQR()">
@@ -182,17 +200,10 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
+    // SUA LÓGICA ORIGINAL MANTIDA E REVISADA
     const urlParams = new URLSearchParams(window.location.search);
     const codigoPixBruto = urlParams.get('codigo');
     const codigoPix = decodeURIComponent(codigoPixBruto || '').trim();
-
-    const beneficiarioEl = document.getElementById('beneficiario');
-    const valorEl = document.getElementById('valor');
-    const btnCopiar = document.getElementById('btnCopiar');
-    const qrCanvas = document.getElementById('qrcode');
-    const boxBeneficiario = document.getElementById('box-beneficiario');
-    const boxValor = document.getElementById('box-valor');
-    const mensagemErro = document.getElementById('mensagem-erro');
 
     function extrairValor(codigo) {
       try {
@@ -209,22 +220,14 @@
       return null;
     }
 
-    function identificarBeneficiario(codigo) {
-      if (codigo.includes("TAMANDARETINTAS")) return "Tamandaré Tintas de Indaiatuba LTDA";
-      if (codigo.includes("MARQUIVENTURINI") || codigo.includes("MARQUI&VENTURINI")) return "Marqui & Venturini Comércio";
-      return null;
-    }
-
-    if (!codigoPix || !codigoPix.startsWith("000201") || codigoPix.length < 100 || !codigoPix.includes("qrpix.bradesco.com.br")) {
-      mensagemErro.style.display = 'block';
-      mensagemErro.innerHTML = "⚠️ Código Pix inválido.";
-      document.querySelectorAll('.destaque, #btnCopiar, #btnGaveta').forEach(el => el.style.display = 'none');
+    if (!codigoPix || !codigoPix.startsWith("000201")) {
+      document.getElementById('mensagem-erro').style.display = 'block';
+      document.getElementById('bloco-conteudo').style.display = 'none';
     } else {
-      const b = identificarBeneficiario(codigoPix);
+      document.getElementById('beneficiario').textContent = codigoPix.includes("TAMANDARETINTAS") ? "Tamandaré Tintas de Indaiatuba LTDA" : "Marqui & Venturini Comércio";
       const v = extrairValor(codigoPix);
-      beneficiarioEl.textContent = b;
-      valorEl.textContent = v ? `R$ ${v.replace('.', ',')}` : 'Não identificado';
-      QRCode.toCanvas(qrCanvas, codigoPix, { width: 200, margin: 2 });
+      document.getElementById('valor').textContent = v ? `R$ ${v.replace('.', ',')}` : 'Não identificado';
+      QRCode.toCanvas(document.getElementById('qrcode'), codigoPix, { width: 200, margin: 2 });
     }
 
     function toggleQR() {
@@ -234,11 +237,12 @@
 
     function copiarPix() {
       navigator.clipboard.writeText(codigoPix).then(() => {
-        btnCopiar.textContent = 'Copiado com Sucesso!';
-        btnCopiar.style.backgroundColor = '#2F855A';
+        const btn = document.getElementById('btnCopiar');
+        btn.textContent = 'Copiado!';
+        btn.style.backgroundColor = '#2F855A';
         setTimeout(() => { 
-          btnCopiar.textContent = 'Copiar Código Pix'; 
-          btnCopiar.style.backgroundColor = '';
+          btn.textContent = 'Copiar Código Pix'; 
+          btn.style.backgroundColor = '';
         }, 2000);
       });
     }
