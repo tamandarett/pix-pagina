@@ -40,34 +40,26 @@
       justify-content: center;
     }
 
-    /* --- BANNER INSTAGRAM (PC) --- */
+    /* --- ESTILO DO BANNER (PC) --- */
     .banner-insta {
       display: flex;
       align-items: center;
-      justify-content: center; /* Centraliza o conteúdo horizontalmente no PC */
+      justify-content: center;
       background: linear-gradient(135deg, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #FFC837);
       width: 100%;
-      max-width: 700px; /* Mesma largura do container */
-      padding: 25px; /* Padding vertical generoso mantido */
+      max-width: 700px;
+      padding: 30px 25px;
       text-decoration: none;
       color: white;
-      border-radius: 12px; /* Mesma bordinha do container (retangular) */
-      /* Efeito de "folha atrás": margem negativa e z-index */
+      border-radius: 12px;
       margin-bottom: -15px; 
       position: relative;
       z-index: 1;
-      box-shadow: 0 4px 10px rgba(225, 48, 108, 0.15);
-      transition: all 0.2s ease;
-    }
-
-    .banner-insta:hover { 
-      transform: translateY(-2px); 
-      box-shadow: 0 8px 15px rgba(225, 48, 108, 0.2); 
+      box-shadow: 0 8px 20px rgba(225, 48, 108, 0.2);
     }
 
     .insta-icon {
-      /* Ícone +25% maior que o anterior */
-      font-size: 40px; 
+      font-size: 35px; /* Ícone 25% maior */
       margin-right: 20px;
       border-right: 1px solid rgba(255,255,255,0.4);
       padding-right: 20px;
@@ -76,28 +68,18 @@
     }
 
     .insta-text {
-      /* Dizeres Centralizados conforme solicitado */
-      text-align: center;
+      text-align: center; /* Centralizado conforme pedido */
     }
 
     .insta-text b { 
-      display: block; 
-      font-size: 15px; 
-      text-transform: uppercase; 
-      letter-spacing: 1px; 
-      line-height: 1.2;
-      margin-bottom: 3px;
+      display: block; font-size: 14px; text-transform: uppercase; 
+      letter-spacing: 1px; line-height: 1.2; margin-bottom: 2px;
     }
     
     .insta-text span { 
-      font-size: 13px; 
-      font-weight: 500;
-      opacity: 0.95; 
-      line-height: 1.4;
-      display: block;
+      font-size: 13px; font-weight: 500; opacity: 0.95; line-height: 1.4;
     }
 
-    /* --- CONTAINER DADOS (PC) --- */
     .container {
       background-color: #fff;
       padding: 35px 30px;
@@ -108,7 +90,7 @@
       max-width: 700px;
       margin: 0 auto;
       position: relative;
-      z-index: 2; /* Fica à frente do banner no PC */
+      z-index: 2;
     }
 
     .conteudo-flex {
@@ -137,55 +119,42 @@
       background-color: var(--cor-primaria); color: white; border: none;
       border-radius: 8px; cursor: pointer; width: 100%;
       margin: 15px 0 10px 0;
-      box-shadow: 0 4px 6px rgba(211, 47, 47, 0.2);
     }
 
-    /* Canvas (QR Code) no PC */
     #qrcode { display: block; max-width: 100%; border-radius: 8px; padding: 10px; background: white; border: 1px solid var(--border-color); }
 
     .btn-gaveta {
       display: none; width: 100%; padding: 12px; background: #f1f5f9;
       border: 1px solid var(--border-color); border-radius: 8px; font-size: 13px;
-      font-weight: 600; color: #475569; cursor: pointer; margin-top: 15px;
+      font-weight: 600; color: #475569; margin-top: 15px;
     }
 
     footer { width: 100%; text-align: center; color: #A0AEC0; font-size: 13px; padding: 20px 0; margin-top: auto; }
 
-    /* =========================================
-       AJUSTES ESPECÍFICOS PARA DISPOSITIVOS MÓVEIS 
-       ========================================= */
+    /* --- VERSÃO MOBILE --- */
     @media (max-width: 600px) {
       body { background-color: #fff; padding: 15px; }
       
-      /* Banner Mobile: Volta a ser pílula para design limpo */
       .banner-insta { 
         border-radius: 50px; 
-        padding: 20px 15px; 
-        margin-bottom: 23px; /* Espaço sutilmente maior para o logo (+15%) */
-        margin-top: 0; /* Remove margem negativa do PC */
-        justify-content: flex-start; /* Alinha ícone e texto à esquerda no Mobile */
-        text-align: left;
+        margin-bottom: 35px; /* Espaço aumentado para o logo */
+        margin-top: 0;
+        padding: 25px 20px;
+        justify-content: center;
       }
-      .insta-icon { font-size: 28px; margin-right: 12px; padding-right: 12px; }
-      .insta-text { text-align: left; } /* Texto volta à esquerda no mobile */
 
-      .container { border: none; box-shadow: none; padding: 10px; margin: 0 auto; width: 100%; z-index: 1; }
-      
+      .container { border: none; box-shadow: none; padding: 10px; width: 100%; }
       .conteudo-flex { flex-direction: column; gap: 10px; }
       
-      /* GAVETA LOGIC E CENTRALIZAÇÃO DO QR CODE MOBILE */
+      /* Centralização total do QR Code no Mobile */
       .qrcode-coluna { 
-        display: none; /* Escondido por padrão */
+        display: none; 
         width: 100%; 
-        text-align: center; /* Centraliza o conteúdo da coluna */
+        justify-content: center;
       }
-      .btn-gaveta { display: block; } /* Mostra o botão da gaveta */
+      #qrcode { margin: 25px auto !important; }
       
-      /* Força o alinhamento central do QR Code quando aberto no Mobile */
-      #qrcode { 
-        margin: 20px auto !important; 
-        display: inline-block !important; /* Ajuda na centralização com text-align: center */
-      }
+      .btn-gaveta { display: block; }
     }
   </style>
 </head>
@@ -193,7 +162,7 @@
 
   <a href="https://www.instagram.com/tamandare.tintas/" target="_blank" class="banner-insta">
     <div class="insta-icon">
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
     </div>
     <div class="insta-text">
       <b>Siga a Tamandaré Tintas no Instagram</b>
@@ -203,7 +172,6 @@
 
   <div class="container">
     <img src="logo.png" alt="Tamandaré Tintas" class="logo" onerror="this.style.display='none'">
-    
     <h2>Pagamento via Pix</h2>
     <p class="instrucao">Confira os dados abaixo antes de confirmar o pagamento:</p>
 
@@ -214,10 +182,7 @@
         <div class="destaque">Beneficiário: <span id="beneficiario">Carregando...</span></div>
         <div class="destaque">Valor: <span id="valor">Carregando...</span></div>
         <button id="btnCopiar" onclick="copiarPix()">Copiar Código Pix</button>
-        
-        <button type="button" class="btn-gaveta" id="btnGaveta" onclick="toggleQR()">
-          Exibir QR Code para escanear
-        </button>
+        <button type="button" class="btn-gaveta" id="btnGaveta" onclick="toggleQR()">Exibir QR Code para escanear</button>
       </div>
       <div class="qrcode-coluna" id="coluna-qr">
         <canvas id="qrcode"></canvas>
@@ -229,7 +194,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
-    // SUA LÓGICA ORIGINAL MANTIDA E REVISADA
     const urlParams = new URLSearchParams(window.location.search);
     const codigoPixBruto = urlParams.get('codigo');
     const codigoPix = decodeURIComponent(codigoPixBruto || '').trim();
@@ -245,7 +209,7 @@
           if (id === '54') return parseFloat(valor).toFixed(2);
           i += 4 + len;
         }
-      } catch (e) { console.error("Erro", e); }
+      } catch (e) { console.error(e); }
       return null;
     }
 
@@ -261,7 +225,7 @@
 
     function toggleQR() {
       const col = document.getElementById('coluna-qr');
-      col.style.display = (col.style.display === 'block') ? 'none' : 'block';
+      col.style.display = (col.style.display === 'flex' || col.style.display === 'block') ? 'none' : 'flex';
     }
 
     function copiarPix() {
@@ -269,10 +233,7 @@
         const btn = document.getElementById('btnCopiar');
         btn.textContent = 'Copiado!';
         btn.style.backgroundColor = '#2F855A';
-        setTimeout(() => { 
-          btn.textContent = 'Copiar Código Pix'; 
-          btn.style.backgroundColor = '';
-        }, 2000);
+        setTimeout(() => { btn.textContent = 'Copiar Código Pix'; btn.style.backgroundColor = ''; }, 2000);
       });
     }
   </script>
