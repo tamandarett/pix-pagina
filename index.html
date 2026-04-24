@@ -40,7 +40,9 @@
       justify-content: center;
     }
 
-    /* --- ESTILO DO BANNER (PC) --- */
+    /* =========================================
+       ESTILO DO BANNER (PC) - JÁ APROVADO
+       ========================================= */
     .banner-insta {
       display: flex;
       align-items: center;
@@ -59,7 +61,7 @@
     }
 
     .insta-icon {
-      font-size: 35px; /* Ícone 25% maior */
+      font-size: 35px;
       margin-right: 20px;
       border-right: 1px solid rgba(255,255,255,0.4);
       padding-right: 20px;
@@ -68,7 +70,7 @@
     }
 
     .insta-text {
-      text-align: center; /* Centralizado conforme pedido */
+      text-align: center;
     }
 
     .insta-text b { 
@@ -131,17 +133,40 @@
 
     footer { width: 100%; text-align: center; color: #A0AEC0; font-size: 13px; padding: 20px 0; margin-top: auto; }
 
-    /* --- VERSÃO MOBILE --- */
+    /* =========================================
+       AJUSTES ESPECÍFICOS PARA MÓVEIS (MOBILE)
+       ========================================= */
     @media (max-width: 600px) {
       body { background-color: #fff; padding: 15px; }
       
       .banner-insta { 
-        border-radius: 50px; 
+        /* AJUSTE: Mais retangular, menos pílula, mas arredondado */
+        border-radius: 15px; 
         margin-bottom: 35px; /* Espaço aumentado para o logo */
         margin-top: 0;
         padding: 25px 20px;
-        justify-content: center;
+        justify-content: center; /* Centralização horizontal total */
+        box-shadow: 0 4px 10px rgba(225, 48, 108, 0.15); /* Sombra mais sutil no mobile */
       }
+
+      .insta-icon { 
+        /* AJUSTE: Ícone +30% maior (era 28px nas versões pílula anteriores) */
+        font-size: 36px; 
+        margin-right: 15px; /* Espaço ajustado para ícone maior */
+        padding-right: 15px; 
+        border-right: 1px solid rgba(255,255,255,0.3); /* Linha divisória mais suave */
+      }
+
+      .insta-text { 
+        /* AJUSTE: Centralização perfeita e fonte um pouco maior */
+        text-align: center; 
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centraliza itens dentro da coluna */
+      }
+      
+      .insta-text b { font-size: 15px; } /* Fonte maior do título */
+      .insta-text span { font-size: 13px; } /* Fonte maior do subtítulo */
 
       .container { border: none; box-shadow: none; padding: 10px; width: 100%; }
       .conteudo-flex { flex-direction: column; gap: 10px; }
@@ -162,7 +187,7 @@
 
   <a href="https://www.instagram.com/tamandare.tintas/" target="_blank" class="banner-insta">
     <div class="insta-icon">
-      <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+      <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
     </div>
     <div class="insta-text">
       <b>Siga a Tamandaré Tintas no Instagram</b>
@@ -194,6 +219,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
+    // SUA LÓGICA ORIGINAL MANTIDA E REVISADA
     const urlParams = new URLSearchParams(window.location.search);
     const codigoPixBruto = urlParams.get('codigo');
     const codigoPix = decodeURIComponent(codigoPixBruto || '').trim();
