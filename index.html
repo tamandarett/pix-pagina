@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Pagamento Seguro - Tamandaré Tintas</title>
 
+  <meta property="og:title" content="Pagamento Seguro - Tamandaré Tintas">
+  <meta property="og:description" content="Toque aqui para conferir os dados e copiar o código PIX com segurança.">
+  <meta property="og:image" content="https://tamandarett.github.io/pix-pagina/socialv2.jpg?v=2">
+  <meta property="og:image:width" content="720">
+  <meta property="og:image:height" content="720">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tamandarett.github.io/pix-pagina/">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pagamento Seguro - Tamandaré Tintas">
+  <meta name="twitter:description" content="Toque aqui para conferir os dados e copiar o código PIX com segurança.">
+  <meta name="twitter:image" content="https://tamandarett.github.io/pix-pagina/socialv2.jpg?v=2">
+
   <link rel="shortcut icon" type="image/png" href="favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -40,9 +54,7 @@
       justify-content: center;
     }
 
-    /* =========================================
-       ESTILO DO BANNER (PC) - JÁ APROVADO
-       ========================================= */
+    /* BANNER INSTAGRAM (PC) */
     .banner-insta {
       display: flex;
       align-items: center;
@@ -133,50 +145,27 @@
 
     footer { width: 100%; text-align: center; color: #A0AEC0; font-size: 13px; padding: 20px 0; margin-top: auto; }
 
-    /* =========================================
-       AJUSTES ESPECÍFICOS PARA MÓVEIS (MOBILE)
-       ========================================= */
+    /* VERSÃO MOBILE */
     @media (max-width: 600px) {
       body { background-color: #fff; padding: 15px; }
       
       .banner-insta { 
-        /* AJUSTE: Mais retangular, menos pílula, mas arredondado */
-        border-radius: 15px; 
+        border-radius: 15px; /* Retangular arredondado conforme pedido */
         margin-bottom: 35px; /* Espaço aumentado para o logo */
         margin-top: 0;
         padding: 25px 20px;
-        justify-content: center; /* Centralização horizontal total */
-        box-shadow: 0 4px 10px rgba(225, 48, 108, 0.15); /* Sombra mais sutil no mobile */
+        justify-content: center;
       }
 
-      .insta-icon { 
-        /* AJUSTE: Ícone +30% maior (era 28px nas versões pílula anteriores) */
-        font-size: 36px; 
-        margin-right: 15px; /* Espaço ajustado para ícone maior */
-        padding-right: 15px; 
-        border-right: 1px solid rgba(255,255,255,0.3); /* Linha divisória mais suave */
-      }
-
-      .insta-text { 
-        /* AJUSTE: Centralização perfeita e fonte um pouco maior */
-        text-align: center; 
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Centraliza itens dentro da coluna */
-      }
-      
-      .insta-text b { font-size: 15px; } /* Fonte maior do título */
-      .insta-text span { font-size: 13px; } /* Fonte maior do subtítulo */
+      .insta-icon { font-size: 36px; margin-right: 15px; padding-right: 15px; }
+      .insta-text { text-align: center; display: flex; flex-direction: column; align-items: center; }
+      .insta-text b { font-size: 15px; }
+      .insta-text span { font-size: 13px; }
 
       .container { border: none; box-shadow: none; padding: 10px; width: 100%; }
       .conteudo-flex { flex-direction: column; gap: 10px; }
       
-      /* Centralização total do QR Code no Mobile */
-      .qrcode-coluna { 
-        display: none; 
-        width: 100%; 
-        justify-content: center;
-      }
+      .qrcode-coluna { display: none; width: 100%; justify-content: center; }
       #qrcode { margin: 25px auto !important; }
       
       .btn-gaveta { display: block; }
@@ -219,7 +208,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
-    // SUA LÓGICA ORIGINAL MANTIDA E REVISADA
     const urlParams = new URLSearchParams(window.location.search);
     const codigoPixBruto = urlParams.get('codigo');
     const codigoPix = decodeURIComponent(codigoPixBruto || '').trim();
