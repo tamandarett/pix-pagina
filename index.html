@@ -60,6 +60,55 @@
       padding: 20px;
     }
 
+    /* Banner Instagram Estilo Pílula */
+    .banner-insta {
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #FFC837);
+      border-radius: 50px;
+      padding: 10px 25px;
+      margin-bottom: 20px;
+      text-decoration: none;
+      color: white;
+      width: 100%;
+      max-width: 700px;
+      transition: all 0.2s ease;
+      box-shadow: 0 5px 15px rgba(225, 48, 108, 0.3);
+    }
+
+    .banner-insta:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 8px 20px rgba(225, 48, 108, 0.4); 
+    }
+
+    .insta-icon {
+      font-size: 26px;
+      margin-right: 18px;
+      border-right: 1px solid rgba(255,255,255,0.4);
+      padding-right: 18px;
+      display: flex;
+      align-items: center;
+    }
+
+    .insta-text {
+      text-align: left;
+      flex-grow: 1;
+    }
+
+    .insta-text b { 
+      display: block; 
+      font-size: 14px; 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+      margin-bottom: 2px;
+    }
+    
+    .insta-text span { 
+      font-size: 13px; 
+      font-weight: 500;
+      opacity: 0.95; 
+    }
+
     .container {
       background-color: #fff;
       padding: 35px 30px;
@@ -163,6 +212,22 @@
       border: 1px solid var(--border-color);
     }
 
+    /* Botão Gaveta Mobile */
+    .btn-gaveta {
+      display: none;
+      width: 100%;
+      padding: 12px;
+      background: #f1f5f9;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      margin-top: 15px;
+      box-shadow: none;
+    }
+
     footer {
       width: 100%;
       text-align: center;
@@ -177,6 +242,10 @@
         background-color: #fff; /* Fundo todo branco */
         padding: 0;
       }
+      .banner-insta {
+        border-radius: 0; /* No mobile ocupa toda a largura sem bordas arredondadas exageradas */
+        margin-bottom: 0;
+      }
       .container {
         box-shadow: none;
         border: none;
@@ -186,6 +255,14 @@
         flex-direction: column; /* Volta a empilhar no celular */
         gap: 10px;
       }
+      /* Gaveta logic */
+      .qrcode-coluna {
+        display: none; /* Escondido por padrão no Mobile */
+        width: 100%;
+      }
+      .btn-gaveta {
+        display: block; /* Mostra o botão da gaveta no mobile */
+      }
       #qrcode {
         margin: 20px auto;
       }
@@ -193,6 +270,18 @@
   </style>
 </head>
 <body>
+
+  <a href="https://www.instagram.com/tamandare.tintas/" target="_blank" class="banner-insta">
+    <div class="insta-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+    </div>
+    <div class="insta-text">
+      <b>Siga-nos no Instagram</b>
+      <span>@tamandare.tintas • Novidades e Ofertas</span>
+    </div>
+    <div style="font-size: 18px; margin-left: 10px;">&rarr;</div>
+  </a>
+
   <div class="container">
     <img src="logo.png" alt="Tamandaré Tintas" class="logo" onerror="this.style.display='none'">
     
@@ -206,8 +295,12 @@
         <div class="destaque" id="box-beneficiario">Beneficiário: <span id="beneficiario">Carregando...</span></div>
         <div class="destaque" id="box-valor">Valor: <span id="valor">Carregando...</span></div>
         <button id="btnCopiar" onclick="copiarPix()">Copiar Código Pix</button>
+        
+        <button type="button" class="btn-gaveta" id="btnGaveta" onclick="toggleQR()">
+          Exibir QR Code para escanear
+        </button>
       </div>
-      <div class="qrcode-coluna">
+      <div class="qrcode-coluna" id="coluna-qr">
         <canvas id="qrcode"></canvas>
       </div>
     </div>
@@ -284,6 +377,19 @@
         boxValor.style.display = 'none';
         qrCanvas.style.display = 'none';
         btnCopiar.style.display = 'none';
+      }
+    }
+
+    // Função da Gaveta Mobile
+    function toggleQR() {
+      const col = document.getElementById('coluna-qr');
+      const btn = document.getElementById('btnGaveta');
+      if (col.style.display === 'block') {
+        col.style.display = 'none';
+        btn.textContent = 'Exibir QR Code para escanear';
+      } else {
+        col.style.display = 'block';
+        btn.textContent = 'Ocultar QR Code';
       }
     }
 
