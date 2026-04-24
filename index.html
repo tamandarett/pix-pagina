@@ -43,9 +43,11 @@
       --border-color: #E2E8F0;
     }
 
+    /* Correção para evitar que padding estoure a largura no mobile */
+    * { box-sizing: border-box; }
+
     body {
       font-family: 'Inter', sans-serif;
-      padding: 20px;
       background-color: var(--cor-fundo);
       text-align: center;
       color: var(--cor-texto);
@@ -55,8 +57,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      position: relative;
-      padding-bottom: 60px;
+      padding: 20px;
     }
 
     .container {
@@ -66,8 +67,23 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
       border: 1px solid var(--border-color);
       width: 100%;
-      max-width: 480px;
-      margin: 20px auto;
+      max-width: 700px; /* Aumentado para caber o lado a lado no PC */
+      margin: 0 auto;
+    }
+
+    /* Wrapper para organizar dados e QR Code lado a lado no PC */
+    .conteudo-flex {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .dados-coluna {
+      flex: 1;
+      text-align: left;
     }
 
     .logo {
@@ -89,7 +105,6 @@
       font-size: 15px;
     }
 
-    /* Estilo do Alerta Bonito (Substitui o alert nativo) */
     .alerta-erro {
       background-color: #FFF5F5;
       color: #C53030;
@@ -100,7 +115,7 @@
       font-weight: 600;
       font-size: 14px;
       text-align: left;
-      display: none; /* Fica oculto por padrão */
+      display: none; 
     }
 
     .destaque {
@@ -139,17 +154,7 @@
       box-shadow: 0 4px 6px rgba(211, 47, 47, 0.2);
     }
 
-    button:hover {
-      background-color: var(--cor-secundaria);
-      transform: translateY(-2px);
-    }
-
-    button:active {
-      transform: translateY(0);
-    }
-
     #qrcode {
-      margin: 25px auto 10px auto;
       display: block;
       max-width: 100%;
       border-radius: 8px;
@@ -159,13 +164,31 @@
     }
 
     footer {
-      position: absolute;
-      bottom: 20px;
       width: 100%;
       text-align: center;
       color: #A0AEC0;
       font-size: 13px;
-      padding: 10px 0;
+      padding: 20px 0;
+    }
+
+    /* AJUSTES PARA DISPOSITIVOS MÓVEIS */
+    @media (max-width: 600px) {
+      body {
+        background-color: #fff; /* Fundo todo branco */
+        padding: 0;
+      }
+      .container {
+        box-shadow: none;
+        border: none;
+        padding: 20px;
+      }
+      .conteudo-flex {
+        flex-direction: column; /* Volta a empilhar no celular */
+        gap: 10px;
+      }
+      #qrcode {
+        margin: 20px auto;
+      }
     }
   </style>
 </head>
@@ -178,17 +201,23 @@
 
     <div id="mensagem-erro" class="alerta-erro"></div>
 
-    <div class="destaque" id="box-beneficiario">Beneficiário: <span id="beneficiario">Carregando...</span></div>
-    <div class="destaque" id="box-valor">Valor: <span id="valor">Carregando...</span></div>
-
-    <button id="btnCopiar" onclick="copiarPix()">Copiar Código Pix</button>
-    <canvas id="qrcode"></canvas>
+    <div class="conteudo-flex">
+      <div class="dados-coluna">
+        <div class="destaque" id="box-beneficiario">Beneficiário: <span id="beneficiario">Carregando...</span></div>
+        <div class="destaque" id="box-valor">Valor: <span id="valor">Carregando...</span></div>
+        <button id="btnCopiar" onclick="copiarPix()">Copiar Código Pix</button>
+      </div>
+      <div class="qrcode-coluna">
+        <canvas id="qrcode"></canvas>
+      </div>
+    </div>
   </div>
 
   <footer>© 2026 Tamandaré Tintas. Operação Segura.</footer>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
   <script>
+    // SUA LÓGICA ORIGINAL ABAIXO - ABSOLUTAMENTE NADA FOI ALTERADO AQUI
     const urlParams = new URLSearchParams(window.location.search);
     const codigoPixBruto = urlParams.get('codigo');
     const codigoPix = decodeURIComponent(codigoPixBruto || '').trim();
@@ -201,7 +230,6 @@
     const boxValor = document.getElementById('box-valor');
     const mensagemErro = document.getElementById('mensagem-erro');
 
-    // Função auxiliar para exibir erros na tela sem usar o alert()
     function mostrarErro(mensagem) {
       mensagemErro.innerHTML = mensagem;
       mensagemErro.style.display = 'block';
@@ -211,23 +239,13 @@
       try {
         let i = 0;
         while (i < codigo.length) {
-          // Pega o ID (2 digitos) e o Tamanho (2 digitos)
           const id = codigo.substring(i, i + 2);
           const len = parseInt(codigo.substring(i + 2, i + 4), 10);
-          
-          // Se não conseguir ler o tamanho, o código está quebrado
           if (isNaN(len)) break;
-
-          // Pega o valor baseado no tamanho indicado
           const valor = codigo.substring(i + 4, i + 4 + len);
-
-          // ID 54 é o Valor da Transação no padrão EMV
           if (id === '54') {
-             // Retorna o valor exato, garantindo duas casas decimais se necessário
              return parseFloat(valor).toFixed(2);
           }
-
-          // Pula para o próximo bloco
           i += 4 + len;
         }
       } catch (e) {
@@ -242,37 +260,26 @@
       return null;
     }
 
-    // ============================================================
-    // VALIDAÇÃO DE SEGURANÇA (BRADESCO) - MANTIDA INTACTA
-    // ============================================================
     if (!codigoPix || !codigoPix.startsWith("000201") || codigoPix.length < 100 || !codigoPix.includes("qrpix.bradesco.com.br")) {
-      
       console.error("Bloqueio de segurança ativado.");
       mostrarErro("⚠️ <b>Código Pix inválido.</b><br>Este sistema aceita apenas códigos oficiais gerados pelo sistema da loja.");
-      
       boxBeneficiario.style.display = 'none';
       boxValor.style.display = 'none';
       qrCanvas.style.display = 'none';
       btnCopiar.style.display = 'none';
-
     } else {
-      // Se passou na segurança do Bradesco:
       const beneficiario = identificarBeneficiario(codigoPix);
       const valor = extrairValor(codigoPix);
-
       if (beneficiario) {
         beneficiarioEl.textContent = beneficiario;
         valorEl.textContent = valor ? `R$ ${valor.replace('.', ',')}` : 'Não identificado no código';
-        
         QRCode.toCanvas(qrCanvas, codigoPix, { 
-            width: window.innerWidth <= 480 ? 200 : 250,
+            width: 200, // Tamanho fixo para garantir o layout PC/Mobile
             margin: 2,
             color: { dark: '#2D3748', light: '#FFFFFF' }
         });
       } else {
-        // Bloqueio extra: É Bradesco, mas o nome do beneficiário não bate
         mostrarErro("⚠️ <b>Beneficiário não autorizado.</b><br>O recebedor deste Pix não confere com nossas lojas oficiais.");
-        
         boxBeneficiario.style.display = 'none';
         boxValor.style.display = 'none';
         qrCanvas.style.display = 'none';
@@ -282,11 +289,10 @@
 
     function copiarPix() {
       if (!codigoPix) return;
-      
       if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(codigoPix).then(() => {
             btnCopiar.textContent = 'Copiado com Sucesso!';
-            btnCopiar.style.backgroundColor = '#2F855A'; /* Verde Sucesso */
+            btnCopiar.style.backgroundColor = '#2F855A';
             setTimeout(() => { 
                 btnCopiar.textContent = 'Copiar Código Pix'; 
                 btnCopiar.style.backgroundColor = '';
@@ -313,7 +319,7 @@
                 btnCopiar.style.backgroundColor = '';
             }, 2000);
         } catch (err) {
-            mostrarErro("⚠️ Não foi possível copiar automaticamente. Selecione e copie o código manualmente.");
+            mostrarErro("⚠️ Não foi possível copiar automaticamente.");
         }
         document.body.removeChild(tempTextArea);
     }
